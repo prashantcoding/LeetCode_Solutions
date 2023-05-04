@@ -31,51 +31,40 @@ class GFG {
 }
 // } Driver Code Ends
 
-class Pair{
-    int i;
-    int from=-1;
-    Pair(int i,int from){
-        this.i=i;
 
-        this.from=from;
-    }
-}
 
 class Solution {
     // Function to detect cycle in an undirected graph.
     
-    public static boolean isCycle(int V, ArrayList<ArrayList<Integer>> adj) {
+    public static boolean isCycle(int V, ArrayList<ArrayList<Integer>> adj){
         Boolean[]visited=new Boolean[V];
-        for(int i=0;i<V;i++){
-            visited[i]=false;
-        }
+        for(int i=0;i<V;i++) visited[i]=false;
         for(int i=0;i<V;i++){
             if(!visited[i]){
-                if(BFS(adj,visited,i)) return true;
+                if(DFS(adj,i,-1,visited)){
+                    return true;
+                }
             }
         }
         return false;
     }
-    static boolean BFS(ArrayList<ArrayList<Integer>> adj, Boolean[] visited, int i){
-            visited[i]=true;
-            Queue<Pair>Q=new LinkedList<>();
-            // Queue including the Pari
-            Q.add(new Pair(i,-1));
-            while(!Q.isEmpty()){
+    static Boolean DFS(ArrayList<ArrayList<Integer>>adj,int start,int parent,Boolean []visited){
+            // checking if the current node is visited or not
 
-                Pair top=Q.poll();
-                visited[top.i]=true;
-                ArrayList<Integer>conn=adj.get(top.i);
-                for(int z:conn){
+            // mark it visited
 
-                    if(visited[z]==true&&z!=top.from) return true;
-                    else if(top.from!=z) Q.add(new Pair(z,top.i));
+            // Now we need to check for the adjacent nodes
+             visited[start]=true;
+            // Now we need to check for the adjacent nodes
+            for(int x:adj.get(start)){
 
-                }
+                // if it is visited but it is the parent therefore do nothing
+               if(visited[x]==false){
+                   if(DFS(adj,x,start,visited)==true) return true;
 
+               }
+               else if(x!=parent) return true;
             }
             return false;
-
-
+        }
     }
-}
