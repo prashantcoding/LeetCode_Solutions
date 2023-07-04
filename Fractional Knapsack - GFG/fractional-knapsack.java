@@ -81,7 +81,7 @@ class Solution
             else{
                 
                  
-                profit+=  W*(ar.get(i).value/(double)dw);
+                profit+=  W*(ar.get(i).value/(float)dw);
                 
                 W=0;
                 break;
