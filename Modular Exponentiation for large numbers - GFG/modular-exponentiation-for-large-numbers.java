@@ -29,6 +29,7 @@ class GFG
 
 //User function Template for Java
 
+
 class Solution
 {
     public long PowMod(long x, long n, long m)
