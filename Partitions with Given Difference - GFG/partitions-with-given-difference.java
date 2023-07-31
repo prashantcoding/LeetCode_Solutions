@@ -34,24 +34,20 @@ class GFG{
 class Solution{
 
     public int countPartitions(int n, int d, int arr[]){
-         int sum=0;
-        for(int i=0;i<arr.length;i++){
-            sum+=arr[i];
-        }
-        return isSum_top_down(arr,sum,n,d);
+        int sum=0;
+        for(int x: arr) sum+=x;
+        return subsetSum(arr,n,sum,d);
     }
     
-     int isSum_top_down(int []arr,int sum,int n,int d) {
-        int [][]dp=new int[n+1][sum+1];
-
-        for(int i=0;i<sum+1;i++){
-            dp[0][i]=0;
-        }
-        for(int i=0;i<n+1;i++){
-            dp[i][0]=1;
-        }
-        for(int i=1;i<dp.length;i++){
-            for(int j=0;j<dp[0].length;j++){
+    int subsetSum(int []arr,int n,int sum ,int d){
+        
+        int [][]dp=new int [n+1][sum+1];
+        
+        for(int i=0;i<sum+1;i++) dp[0][i]=0;
+        for(int i=0;i<n+1;i++) dp[i][0]=1;
+        
+        for(int i=1;i<n+1;i++){
+            for(int j=0;j<sum+1;j++){
                 if(arr[i-1]<=j){
                     dp[i][j]=(dp[i-1][j-arr[i-1]]+dp[i-1][j])%1000000007;
                 }else{
@@ -59,17 +55,15 @@ class Solution{
                 }
             }
         }
-
-
-        int []last_row=dp[n];
+        
+        int[]lastRow= dp[n];
         int count=0;
         for(int i=sum/2;i<sum+1;i++){
-            int diff=2*i-sum;
-            if(last_row[i]!=0&&diff==d){
-                count+=last_row[i];
-
+            int diff=(2*i)-sum;
+            if(lastRow[i]!=0 && diff==d){
+                count+=lastRow[i];
             }
         }
-        return count%1000000007;
+         return count%1000000007;
     }
 }
