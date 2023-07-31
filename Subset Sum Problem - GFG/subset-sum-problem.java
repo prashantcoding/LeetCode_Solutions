@@ -37,25 +37,34 @@ class Solution{
 
 
     static Boolean isSubsetSum(int N, int arr[], int sum){
-        int [][]dp=new int[N+1][sum+1];
-        for(int []x:dp){
-            Arrays.fill(x,-1);
-        }
-        isSubsetSumM(N,  arr,  sum,dp);
-        return (dp[N][sum]==1)?true:false; 
+        int ans=subsetSum(arr ,sum,N);
+        return ans==1?true:false;
     }
-      static int isSubsetSumM(int N, int arr[], int sum,int [][]dp){
-        if(sum==0) return 1;
-        if(N==0) return 0;
-        if(dp[N][sum]!=-1)return dp[N][sum];
-        
-        
-        if(sum >= arr[N-1]){
-             if(isSubsetSumM(N-1,arr,sum-arr[N-1],dp)==0&&isSubsetSumM(N-1,arr,sum,dp)==0){
-              return dp[N][sum]=0;
-                }
-            else return dp[N][sum]=1;
+    
+     static int  subsetSum(int []nums ,int sum,int n){
+        int[][]dp=new int [n+1][sum+1];
+        for(int i=0;i<sum+1;i++){
+            dp[0][i]=0;
         }
-        else return dp[N][sum]=isSubsetSumM(N-1,arr,sum,dp);
+        for(int i=0;i<n+1;i++){
+            dp[i][0]=1;
+        }
+        
+       
+        
+        for(int i=1;i<n+1;i++){
+            for(int j=1;j<sum+1;j++){
+                if(j>=nums[i-1]){
+                    if(dp[i-1][j-nums[i-1]]==0&&dp[i-1][j]==0)
+                    dp[i][j]=0;
+                    else dp[i][j]=1;
+                }
+                else{
+                    dp[i][j]=dp[i-1][j];
+                }
+            }
+        }
+        return dp[n][sum];
+
     }
 }
