@@ -27,67 +27,58 @@ class GFG {
 // } Driver Code Ends
 
 class Pair{
-    int first,second;
-    Pair(int a,int b){
-        first=a;
-        second=b;
+    int r;
+    int c;
+    Pair(int r,int c){
+        this.r=r;
+        this.c=c;
     }
 
 }
 class Solution {
     // Function to find the number of islands.
     public int numIslands(char[][] grid) {
-        Boolean[][]visited=new Boolean[grid.length][grid[0].length];
-        for(int i=0;i<grid.length;i++){
-            for(int j=0;j<grid[0].length;j++){
-                visited[i][j]=false;
-            }
-        }
-        int count=0;
-        for(int i=0;i<grid.length;i++){
-            for(int j=0;j<grid[0].length;j++){
-                if(!visited[i][j]&&grid[i][j]=='1'){
-                    count++;
-
-                    BFS(grid,visited,i,j);
-                }
-            }
-        }
-        return count;
-    }
-    void BFS(char[][] grid, Boolean[][] visited, int row, int col){
-
-        visited[row][col]=true;
-        Queue<Pair> Q=new LinkedList<Pair>();
-        Q.add(new Pair(row,col));
-        int n=grid.length;
-        int m=grid[0].length;
-        while(!Q.isEmpty()){
-
-
-            int ro=Q.peek().first;
-            int co=Q.peek().second;
-            Q.remove();
-
-            for(int delrow=-1;delrow<=1;delrow++){
-                for(int delcol=-1;delcol<=1;delcol++){
-                    int nrow=delrow+ro;
-
-                    int ncol=delcol+co;
-
-                    if (nrow >= 0 && nrow < n && ncol >= 0 && ncol < m && grid[nrow][ncol] == '1' && visited[nrow][ncol] == false
-                    ) {
-
-                        visited[nrow][ncol]=true;
-                        Q.add(new Pair(nrow,ncol));
-                    }
-
-                }
-            }
-
-
-        }
-
+        return solve(grid);
     }
     
+     int solve(char[][] grid) {
+        int m=grid.length;
+        int n=grid[0].length;
+        boolean [][]visited=new boolean [m][n];
+        int cnt=0;
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                if(visited[i][j]==false && grid[i][j]=='1' ){
+                        cnt++;
+                        bfs(grid,visited,i,j);
+                        
+
+                }
+            }
+        }
+        return cnt;
+    }
+
+    void bfs(char [][]grid,boolean[][]visited,int i,int j){
+        
+        Queue<Pair>Q=new LinkedList<>();
+        Q.add(new Pair(i,j));
+        while(!Q.isEmpty()){
+            Pair temp=Q.poll();
+            int row=temp.r;
+            int col=temp.c;
+                for(int delrow=-1;delrow<=1;delrow++){
+                    for(int delcol=-1;delcol<=1;delcol++){
+                        int nrow=row+delrow;
+                        int ncol=col+delcol;
+        if(nrow>=0 && nrow<grid.length && ncol>=0 && ncol<grid[0].length && visited[nrow][ncol]==false && grid[nrow][ncol]=='1'
+                        ){
+                            visited[nrow][ncol]=true;
+                              Q.add(new Pair(nrow,ncol));
+                        }
+                    }
+                }
+            
+        }
+    }
 }
