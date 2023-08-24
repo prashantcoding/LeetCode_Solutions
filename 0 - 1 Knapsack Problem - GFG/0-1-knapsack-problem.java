@@ -48,36 +48,23 @@ class gfg
 
 class Solution 
 { 
-    
     //Function to return max value that can be put in knapsack of capacity W.
     static int knapSack(int W, int wt[], int val[], int n) 
-    { 
-        int [][]dp=new int[n+1][W+1];
-        for(int []x:dp){
-            Arrays.fill(x,-1);
-        }
-       return knapSackM(W,wt,val,n,dp);
-       
+    {   int [][]dp=new int [n+1][W+1];
+        for(int []x:dp) Arrays.fill(x,-1);
+         return solveDp(val,wt,n,W,val.length,dp); 
     } 
-    
-     static int knapSackM(int W, int wt[], int val[], int n,int[][]dp) 
-    { 
-        if(n==0||W==0) return 0;
-        
-        if( dp[n][W] !=-1 ) return dp[n][W];
-        if(W>=wt[n-1]){
-            return dp[n][W]=Math.max(val[n-1]+knapSackM(W-wt[n-1],wt,val,n-1,dp),
-                knapSackM(W,wt,val,n-1,dp));
-        
+    static int solveDp(int []values,int []weight,int N,int W,int ind,int [][]dp){
+        if(ind==0) return 0;
+        if(dp[ind][W]!=-1) return dp[ind][W];
+        if(W>=weight[ind-1]){
+            return dp[ind][W]=Math.max(values[ind-1]+solveDp(values,weight,N,W-weight[ind-1],ind-1,dp),
+                    solveDp(values,weight,N,W,ind-1,dp));
         }
         else{
-          return  dp[n][W]=knapSackM(W,wt,val,n-1,dp);
+            return dp[ind][W]=solveDp(values,weight,N,W,ind-1,dp);
         }
-    } 
-    
-    
+    }
 }
-
-
 
 
