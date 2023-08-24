@@ -22,47 +22,38 @@ class GfG {
 // User function Template for Java
 
 class Solution {
-    public int longestkSubstr(String s, int k) {
-        int i=0; // starting of window
-        int j=0; // index to maintain window size
-        int max_size=0;
-        Map<Character,Integer>map=new HashMap<>(); //Map to input 
-        while(j<s.length()) {
-            // check if the character is there or not 
-            char ch=s.charAt(j);
-            
-            if(map.get(ch)==null){
-                map.put(ch,1); 
-            }
-            else{
-                int val=map.get(ch);
-                map.put(ch,val+1);
-            }
-            //  System.out.println("maxsize"+map.size());
-            if(map.size()<k) j++;
-            else{
-                // System.out.println("Hii");
-                if(map.size()==k){
-                    max_size=Math.max(j-i+1,max_size);
-                    j++;
-                }
-                else if(map.size()>k){
-                    while(map.size()>k){
-                        char c=s.charAt(i);
-                        int val=map.get(c);
-                        if(val==1) map.remove(c);
-                        else map.put(c,val-1);
-                        i++;
-                    }
-                    max_size=Math.max(j-i+1,max_size);
-                    j++;
-                }
-                
-            }
-            
-        }
-        if(max_size==0) return -1;
-        return max_size;
-        
+    public int longestkSubstr(String S, int K) {
+         
+       int i=0;
+       int j=0;
+       int n=S.length();
+        Map<Character,Integer>hmap=new HashMap<>();
+       int maxLen=-1;
+       while(j<n){
+           char ch=S.charAt(j);
+           if(hmap.containsKey(ch)){
+               hmap.put(ch,hmap.get(ch)+1);
+           }
+           else hmap.put(ch,1);
+           if(hmap.size()<K){
+
+               j++;
+           }
+           else{
+              if(hmap.size()==K) maxLen=Math.max(maxLen,j-i+1);
+              else{
+                  char temp=S.charAt(i);
+                  if(hmap.containsKey(temp)){
+                      int val=hmap.get(temp);
+                      if(val==1) hmap.remove(temp);
+                      else hmap.put(temp,val-1);
+                  }
+                  i++;
+
+              }
+               j++;
+           }
+       }
+        return maxLen;   
     }
 }
